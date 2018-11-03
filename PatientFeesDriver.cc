@@ -21,9 +21,9 @@ int main() {
     char choice;
     do {
         //initialize pointers to nullptr
-        PatientAccount *patientPtr = NULL;
-        Surgery *surgeryPtr = NULL;
-        Pharmacy *pharmacyPtr = NULL;
+        PatientAccount *patientPtr = nullptr;
+        Surgery *surgeryPtr = nullptr;
+        Pharmacy *pharmacyPtr = nullptr;
 
         //loop basis: checkout patient
         do {
@@ -49,6 +49,14 @@ int main() {
         findDaysInHosp(patientPtr, surgeryPtr); //get num days in hosp
         rxMenu(pharmacyPtr); //get rx
         patientCharges(patientPtr, surgeryPtr, pharmacyPtr); //pt receipt
+
+        //delete so no memory leaks
+        delete patientPtr;
+        delete surgeryPtr;
+        delete pharmacyPtr;
+        patientPtr = nullptr;
+        surgeryPtr = nullptr;
+        pharmacyPtr = nullptr;
     } while (toupper(choice) == 'Y');
     return 0;
   }
@@ -97,15 +105,15 @@ void surgeryMenu(Surgery *surgeryPtr) {
 
 void findDaysInHosp(PatientAccount *patientPtr, Surgery *surgeryPtr) {
     bool flag = false;
+    double days;
     do {
-        double days;
         cout << "How many days did the patient stay?: ";
         cin >> days;
         if (days <= 0) {
             cout << "Patient must be in hospital longer than that";
             cout << "after having " << surgeryPtr->getSurgeryName() << endl;
         }
-    }while (days <= 0)
+    } while (days <= 0);
     patientPtr->setNumDaysInHosp(days);
 }
 
